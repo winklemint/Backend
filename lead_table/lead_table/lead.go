@@ -55,5 +55,5 @@ func DeleteLead(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Fprintf(w, "Lead with ID %s deleted successfully", id)
+	fmt.Fprintf(w, "Lead with ID %d deleted successfully", id)
 }
