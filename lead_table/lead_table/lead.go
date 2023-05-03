@@ -36,9 +36,24 @@ func InsertLead(w http.ResponseWriter, r *http.Request) {
 
 func UpdateLead(w http.ResponseWriter, r *http.Request) {
 	db := Conn()
-	stmt, err := db.Prepare("UPDATE lead_table SET last_modified = NOW() , WHERE id = <ID>;")
+	stmt, err := db.Prepare("UPDATE lead_table SET last_modified = NOW() , WHERE id = ?;")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer stmt.Close()
+}
+
+func DeleteLead(w http.ResponseWriter, r *http.Request) {
+	db := Conn()
+	id := r.FormValue("id")
+	stmt, err := db.Prepare("DELETE FROM lead_table WHERE id=?")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer stmt.Close()
+	_, err = stmt.Exec(id)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Fprintf(w, "Lead with ID %s deleted successfully", id)
 }
