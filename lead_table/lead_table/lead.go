@@ -36,7 +36,7 @@ func InsertLead(w http.ResponseWriter, r *http.Request) {
 
 func UpdateLead(w http.ResponseWriter, r *http.Request) {
 	db := Conn()
-	stmt, err := db.Prepare("UPDATE lead_table SET last_modified = NOW() , WHERE id = ?;")
+	stmt, err := db.Prepare("UPDATE lead_table SET last_modified = NOW() , WHERE id = ?")
 	if err != nil {
 		log.Fatal(err)
 	}

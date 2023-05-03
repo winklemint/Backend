@@ -12,5 +12,6 @@ func main() {
 	fmt.Println("Inserted succesfully")
 	http.HandleFunc("/", lead.InsertLead)
 	http.HandleFunc("/update", lead.UpdateLead)
+	http.HandleFunc("/delete", lead.DeleteLead)
 	http.ListenAndServe(":8080", nil)
 }
