@@ -11,7 +11,6 @@ import (
 )
 
 type lead_info struct {
-	ID            int
 	Created_at    time.Time
 	Last_modified time.Time
 	Status        string
@@ -36,11 +35,13 @@ func InsertLead(w http.ResponseWriter, r *http.Request) {
 
 func UpdateLead(w http.ResponseWriter, r *http.Request) {
 	db := Conn()
-	stmt, err := db.Prepare("UPDATE lead_table SET last_modified = NOW() , WHERE id = ?")
+	//id := r.FormValue("id")
+	stmt, err := db.Prepare("UPDATE lead_table SET last_modified = NOW() WHERE id = ?")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer stmt.Close()
+	fmt.Fprintf(w, "Lead with ID updated successfully")
 }
 
 func DeleteLead(w http.ResponseWriter, r *http.Request) {
@@ -55,5 +56,14 @@ func DeleteLead(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Fprintf(w, "Lead with ID %d deleted successfully", id)
+	fmt.Fprintf(w, "Lead with ID %s deleted successfully", id)
+}
+
+func LeadIndex(w http.ResponseWriter, r *http.Request) {
+	db := Conn()
+	_, err := db.Query("SELECT * FROM lead_table")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Fprintln(w, "Lead Table", r)
 }
